@@ -81,7 +81,7 @@
   <ItemGroup>
     <Compile Include="AudioStats.cs" />
     <Compile Include="DJsAudioStats.cs" />
-    <Compile Include="DataPluginDemoSettings.cs" />
+    <Compile Include="AudioStatsPluginSettings.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

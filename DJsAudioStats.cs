@@ -11,7 +11,7 @@ namespace DJ.SimHub.AudioStats
     public class DJsAudioStats : IPlugin, IDataPlugin, IWPFSettings
     {
         
-        public DataPluginDemoSettings Settings;
+        public AudioStatsPluginSettings Settings;
 
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace DJ.SimHub.AudioStats
             
 
             // Load settings
-            Settings = this.ReadCommonSettings<DataPluginDemoSettings>("GeneralSettings", () => new DataPluginDemoSettings());
+            Settings = this.ReadCommonSettings<AudioStatsPluginSettings>("GeneralSettings", () => new AudioStatsPluginSettings());
 
 
             // Declare a property available in the property list

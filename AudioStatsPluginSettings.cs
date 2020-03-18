@@ -3,8 +3,8 @@
     /// <summary>
     /// Settings class, make sure it can be correctly serialized using JSON.net
     /// </summary>
-    public class DataPluginDemoSettings
+    public class AudioStatsPluginSettings
     {
-        public int SpeedWarningLevel = 100;
+        //public int SpeedWarningLevel = 100;
     }
 }
