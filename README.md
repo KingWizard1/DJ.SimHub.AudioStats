@@ -13,7 +13,7 @@ The plugin is based off the SimHub Plugin SDK that comes bundled with the SimHub
 # Installation
 1. Download the latest version of the plugin from the Releases page.
 2. Drop all .DLL files directly into the root of the SimHub installation directory. The default folder for SimHub is "C:\Program Files (x86)\SimHub\"
- * Start SimHub. It should detect and prompt you to enable the plugin 
+3. Start SimHub. It should detect and prompt you to enable the plugin 
 
 
 # Available Properties
