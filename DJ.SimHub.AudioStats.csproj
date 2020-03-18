@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DJ.SimHub</RootNamespace>
-    <AssemblyName>DJ.SimHubPlugin</AssemblyName>
+    <AssemblyName>DJsAudioStats</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
