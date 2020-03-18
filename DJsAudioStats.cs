@@ -45,6 +45,18 @@ namespace DJ.SimHub.AudioStats
             pluginManager.AddProperty(nameof(AudioStats.AudioPlaybackDeviceName), this.GetType(), typeof(string));
             pluginManager.AddProperty(nameof(AudioStats.AudioPlaybackTimeSinceLastChange), this.GetType(), typeof(int));
 
+            pluginManager.AddProperty(nameof(AudioStats.AudioCaptureMuted), this.GetType(), typeof(bool));
+            pluginManager.AddProperty(nameof(AudioStats.AudioCaptureVolume), this.GetType(), typeof(int));
+            pluginManager.AddProperty(nameof(AudioStats.AudioCaptureDevice), this.GetType(), typeof(string));
+            pluginManager.AddProperty(nameof(AudioStats.AudioCaptureDeviceName), this.GetType(), typeof(string));
+            pluginManager.AddProperty(nameof(AudioStats.AudioCaptureTimeSinceLastChange), this.GetType(), typeof(int));
+
+            pluginManager.AddProperty(nameof(AudioStats.AudioCommunicationMuted), this.GetType(), typeof(bool));
+            pluginManager.AddProperty(nameof(AudioStats.AudioCommunicationVolume), this.GetType(), typeof(int));
+            pluginManager.AddProperty(nameof(AudioStats.AudioCommunicationDevice), this.GetType(), typeof(string));
+            pluginManager.AddProperty(nameof(AudioStats.AudioCommunicationDeviceName), this.GetType(), typeof(string));
+            pluginManager.AddProperty(nameof(AudioStats.AudioCommunicationTimeSinceLastChange), this.GetType(), typeof(int));
+
             //SimHub.Logging.Current.Info(AudioStats.GetVolume());
 
             LogHelper.Log($"{nameof(DJsAudioStats)} initialised OK");
@@ -52,20 +64,20 @@ namespace DJ.SimHub.AudioStats
             return;
 
             // Declare an event 
-            pluginManager.AddEvent("SpeedWarning", this.GetType());
+            //pluginManager.AddEvent("SpeedWarning", this.GetType());
 
             // Declare an action which can be called
-            pluginManager.AddAction("IncrementSpeedWarning", this.GetType(), (a, b) =>
-            {
-                Settings.SpeedWarningLevel++;
-                global::SimHub.Logging.Current.Info("Speed warning changed");
-            });
+            //pluginManager.AddAction("IncrementSpeedWarning", this.GetType(), (a, b) =>
+            //{
+            //    Settings.SpeedWarningLevel++;
+            //    global::SimHub.Logging.Current.Info("Speed warning changed");
+            //});
 
             // Declare an action which can be called
-            pluginManager.AddAction("DecrementSpeedWarning", this.GetType(), (a, b) =>
-            {
-                Settings.SpeedWarningLevel--;
-            });
+            //pluginManager.AddAction("DecrementSpeedWarning", this.GetType(), (a, b) =>
+            //{
+            //    Settings.SpeedWarningLevel--;
+            //});
         }
         /// <summary>
         /// Called at plugin manager stop, close/dispose anything needed here ! 
@@ -109,6 +121,18 @@ namespace DJ.SimHub.AudioStats
             pluginManager.SetPropertyValue(nameof(AudioStats.AudioPlaybackDevice), this.GetType(), AudioStats.AudioPlaybackDevice);
             pluginManager.SetPropertyValue(nameof(AudioStats.AudioPlaybackDeviceName), this.GetType(), AudioStats.AudioPlaybackDeviceName);
             pluginManager.SetPropertyValue(nameof(AudioStats.AudioPlaybackTimeSinceLastChange), this.GetType(), AudioStats.AudioPlaybackTimeSinceLastChange);
+
+            pluginManager.SetPropertyValue(nameof(AudioStats.AudioCaptureMuted), this.GetType(), AudioStats.AudioCaptureMuted);
+            pluginManager.SetPropertyValue(nameof(AudioStats.AudioCaptureVolume), this.GetType(), AudioStats.AudioCaptureVolume);
+            pluginManager.SetPropertyValue(nameof(AudioStats.AudioCaptureDevice), this.GetType(), AudioStats.AudioCaptureDevice);
+            pluginManager.SetPropertyValue(nameof(AudioStats.AudioCaptureDeviceName), this.GetType(), AudioStats.AudioCaptureDeviceName);
+            pluginManager.SetPropertyValue(nameof(AudioStats.AudioCaptureTimeSinceLastChange), this.GetType(), AudioStats.AudioCaptureTimeSinceLastChange);
+
+            pluginManager.SetPropertyValue(nameof(AudioStats.AudioCommunicationMuted), this.GetType(), AudioStats.AudioCommunicationMuted);
+            pluginManager.SetPropertyValue(nameof(AudioStats.AudioCommunicationVolume), this.GetType(), AudioStats.AudioCommunicationVolume);
+            pluginManager.SetPropertyValue(nameof(AudioStats.AudioCommunicationDevice), this.GetType(), AudioStats.AudioCommunicationDevice);
+            pluginManager.SetPropertyValue(nameof(AudioStats.AudioCommunicationDeviceName), this.GetType(), AudioStats.AudioCommunicationDeviceName);
+            pluginManager.SetPropertyValue(nameof(AudioStats.AudioCommunicationTimeSinceLastChange), this.GetType(), AudioStats.AudioCommunicationTimeSinceLastChange);
 
 
             //if (data.GameRunning)

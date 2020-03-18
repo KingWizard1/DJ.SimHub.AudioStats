@@ -11,11 +11,16 @@ namespace DJ.SimHub.AudioStats
 {
     public static class AudioStats
     {
-
+        /// <summary>The core audio controller.</summary>
         private static CoreAudioController _audioController = null;
-
+        
+        /// <summary>Monitors for changes across all devices.</summary>
         private static AudioDeviceChangeObserver _deviceChangeObserver = null;
+
+        /// <summary>Monitors for changes for each default device type.</summary>
         private static AudioDeviceObserver _playbackDeviceObserver = null;
+        private static AudioDeviceObserver _captureDeviceObserver = null;
+        private static AudioDeviceObserver _commsDeviceObserver = null;
 
         // ------------------------------------------------- //
 
@@ -28,24 +33,45 @@ namespace DJ.SimHub.AudioStats
             _deviceChangeObserver = new AudioDeviceChangeObserver();
             _audioController.AudioDeviceChanged.Subscribe(_deviceChangeObserver);
 
-            // Create an observer for the current default playback device.
-            var activePlaybackDevices = _audioController.GetPlaybackDevices(DeviceState.Active);
-            var defaultPlaybackDevice = activePlaybackDevices.FirstOrDefault(d => d.IsDefaultDevice);
+            // Get all currently active audio devices
+            var activeDevices = _audioController.GetDevices(DeviceType.All, DeviceState.Active);
+            
+            /* Create observers for each default audio device type */
+            // Default playback device
+            var defaultPlaybackDevice = activeDevices.FirstOrDefault(d => d.DeviceType == DeviceType.Playback && d.IsDefaultDevice);
             if (defaultPlaybackDevice != null)
-                _playbackDeviceObserver = CreateNewPlaybackDeviceObserver(defaultPlaybackDevice);
+                _playbackDeviceObserver = _CreateObserver(defaultPlaybackDevice);
             else
-                LogHelper.Error($"{nameof(DJsAudioStats)} couldn't find a default playback device on the system.");
+                LogHelper.Error($"{nameof(DJsAudioStats)} couldn't find an active default playback device on the system.");
 
-            // K, go
-            LogHelper.Log($"{nameof(DJsAudioStats)} initialised");
+            // Default capture device
+            var defaultCaptureDevice = activeDevices.FirstOrDefault(d => d.DeviceType == DeviceType.Capture && d.IsDefaultDevice);
+            if (defaultCaptureDevice != null)
+                _captureDeviceObserver = _CreateObserver(defaultCaptureDevice);
+            else
+                LogHelper.Error($"{nameof(DJsAudioStats)} couldn't find an active default capture device on the system.");
+
+            // Default communications device
+            var defaultCommsDevice = activeDevices.FirstOrDefault(d => d.DeviceType == DeviceType.Capture && d.IsDefaultCommunicationsDevice);
+            if (defaultCommsDevice != null)
+                _commsDeviceObserver = _CreateObserver(defaultCommsDevice);
+            else
+                LogHelper.Error($"{nameof(DJsAudioStats)} couldn't find an active default communications device on the system.");
+
 
         }
 
         // ------------------------------------------------- //
 
-        private static AudioDeviceObserver CreateNewPlaybackDeviceObserver(IDevice device)
+        private static AudioDeviceObserver _CreateObserver(IDevice device)
         {
-            LogHelper.Log($"{nameof(DJsAudioStats)} default playback device is {device.FullName}");
+            // Log the device type and name
+            var typeString = device.DeviceType.ToString().ToLower();
+            if (device.IsDefaultCommunicationsDevice)
+                typeString = "communications";
+            LogHelper.Log($"{nameof(DJsAudioStats)} default {typeString} device is {device.FullName}");
+
+            // Return a new observer for the device
             return new AudioDeviceObserver(device);
         }
 
@@ -71,12 +97,17 @@ namespace DJ.SimHub.AudioStats
                         // The first call will be for the device being UNSET as the default device.
                         // The second call will be for the device being SET as the default device.
 
-                        // Ignore the device that isn't the default
-                        if (!value.Device.IsDefaultDevice)
-                            return;
-
                         // Handle the new default device
-                        _playbackDeviceObserver = CreateNewPlaybackDeviceObserver(value.Device);
+                        if (value.Device.IsPlaybackDevice && value.Device.IsDefaultDevice)
+                            _playbackDeviceObserver = _CreateObserver(value.Device);
+                        else if (value.Device.IsCaptureDevice)
+                        {
+                            if (value.Device.IsDefaultDevice)
+                                _captureDeviceObserver = _CreateObserver(value.Device);
+                            if (value.Device.IsDefaultCommunicationsDevice)
+                                _commsDeviceObserver = _CreateObserver(value.Device);
+                        }
+                        
 
                         break;
 
@@ -164,6 +195,18 @@ namespace DJ.SimHub.AudioStats
         public static double AudioPlaybackTimeSinceLastChange => _playbackDeviceObserver != null ? _playbackDeviceObserver.timeSinceLastChange : 0;
         public static string AudioPlaybackDevice => _playbackDeviceObserver != null ? _playbackDeviceObserver.deviceName : string.Empty;
         public static string AudioPlaybackDeviceName => _playbackDeviceObserver != null ? _playbackDeviceObserver.deviceFullName : string.Empty;
+
+        public static double AudioCaptureVolume => _captureDeviceObserver != null ? _captureDeviceObserver.volume : 0;
+        public static bool AudioCaptureMuted => _captureDeviceObserver != null ? _captureDeviceObserver.isMuted : false;
+        public static double AudioCaptureTimeSinceLastChange => _captureDeviceObserver != null ? _captureDeviceObserver.timeSinceLastChange : 0;
+        public static string AudioCaptureDevice => _captureDeviceObserver != null ? _captureDeviceObserver.deviceName : string.Empty;
+        public static string AudioCaptureDeviceName => _captureDeviceObserver != null ? _captureDeviceObserver.deviceFullName : string.Empty;
+
+        public static double AudioCommunicationVolume => _commsDeviceObserver != null ? _commsDeviceObserver.volume : 0;
+        public static bool AudioCommunicationMuted => _commsDeviceObserver != null ? _commsDeviceObserver.isMuted : false;
+        public static double AudioCommunicationTimeSinceLastChange => _commsDeviceObserver != null ? _commsDeviceObserver.timeSinceLastChange : 0;
+        public static string AudioCommunicationDevice => _commsDeviceObserver != null ? _commsDeviceObserver.deviceName : string.Empty;
+        public static string AudioCommunicationDeviceName => _commsDeviceObserver != null ? _commsDeviceObserver.deviceFullName : string.Empty;
 
     }
 }
