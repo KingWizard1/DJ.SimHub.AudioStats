@@ -19,8 +19,8 @@ The plugin is based off the SimHub Plugin SDK that comes bundled with the SimHub
 # Available Properties
 Property | Type | Description
 ------------ | ------------- | -------------
-AudioPlaybackDevice | string | The short name of your default device as determined by Windows (e.g. "Speakers", "Headset")
-AudioPlaybackDeviceName | string | The full name of your default device (e.g. "Realtek HD Audio")
-AudioPlaybackMuted | bool | Whether or not the device is muted. NOTE: Some devices report true if the volume is set to 0.
-AudioPlaybackTimeSinceLastChange | int | The number of seconds that have elapsed since a change was detected on the device (e.g. volume change)
-AudioPlaybackVolume | int | The current volume level of the device.
+AudioDevice | string | The short name of your default device as determined by Windows (e.g. "Speakers", "Headset")
+AudioDeviceName | string | The full name of your default device (e.g. "Realtek HD Audio")
+AudioMuted | bool | Whether or not the device is muted. NOTE: Some devices report true if the volume is set to 0.
+AudioTimeSinceLastChange | int | The number of seconds that have elapsed since a change was detected on the device (e.g. volume change)
+AudioVolume | int | The current volume level of the device.
