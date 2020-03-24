@@ -1,5 +1,5 @@
 # DJ's Audio Stats Plugin for SimHub
- A SimHub plugin that provides information about your default audio playback device.
+ A SimHub plugin that provides information about your default audio playback, recording and communications devices on your system. The plugin exposes the name and volume properties of each device, and automatically detects when a default device changes.
 
 The plugin is based off the SimHub Plugin SDK that comes bundled with the SimHub application software. The plugin was built using Visual Studio 2019 and uses [XenoLighting's .NET AudioSwitcher library](https://github.com/xenolightning/AudioSwitcher) which is referenced in the project.
 
